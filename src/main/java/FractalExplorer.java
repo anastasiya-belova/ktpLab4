@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
 public class FractalExplorer {
@@ -16,9 +18,9 @@ public class FractalExplorer {
 
     public FractalExplorer(int displaySize) {
         this.displaySize = displaySize;
-        this.imageDisplay = new JImageDisplay(displaySize, displaySize);
-        this.range = new Rectangle2D.Double(-2, -1.5, 3, 3);
         this.fractalGenerator = new MandelbrotFractal();
+        range = new Rectangle2D.Double();
+        fractalGenerator.getInitialRange(range);
     }
 
     public void createAndShowGUI() {
@@ -27,10 +29,16 @@ public class FractalExplorer {
         Container contentPane = frame.getContentPane();
 
         JButton clearButton = new JButton("Сброс изображения");
-        clearButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                fractalGenerator.getInitialRange(range);
-                drawFractal();
+        clearButton.addActionListener(e -> {
+            fractalGenerator.getInitialRange(range);
+            drawFractal();
+        });
+        this.imageDisplay = new JImageDisplay(displaySize, displaySize);
+        imageDisplay.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                fractalGenerator.recenterAndZoomRange(range, e.getX(), e.getY(), 0.5);
+                imageDisplay.repaint();
             }
         });
 
