@@ -13,17 +13,14 @@ public class MandelbrotFractal extends FractalGenerator {
     }
 
     public int numIterations(double x, double y) {
-        System.out.println("numIterations() start for x = " + x + ", y = " + y);
         ComplexNumber z = new ComplexNumber(0d, 0d);
         ComplexNumber c = new ComplexNumber(x, y);
-        for (int i = 0; i < MAX_ITERATIONS; i++) {
-            if (z.getSquaredModulus() <= 4) {
-                System.out.println("numIterations() done, count = " + i);
+        for (int i = 1; i <= MAX_ITERATIONS; i++) {
+            if (z.getSquaredModulus() > 4) {
                 return i;
             }
             z = z.getSquare().add(c);
         }
-        System.out.println("numIterations() done, count = -1");
         return -1;
     }
 

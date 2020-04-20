@@ -8,7 +8,7 @@ public class JImageDisplay extends JComponent {
     private BufferedImage bufferedImage;
 
     public JImageDisplay(int width, int height) {
-        this.bufferedImage = new BufferedImage(width, height, 1);
+        this.bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         super.setPreferredSize(new Dimension(width, height));
     }
 
