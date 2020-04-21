@@ -2,9 +2,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
@@ -26,7 +23,6 @@ public class FractalExplorer {
     public void createAndShowGUI() {
         JFrame frame = new JFrame("Fractal Explorer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container contentPane = frame.getContentPane();
 
         JButton clearButton = new JButton("Сброс изображения");
         clearButton.addActionListener(e -> {
@@ -35,16 +31,23 @@ public class FractalExplorer {
         });
         this.imageDisplay = new JImageDisplay(displaySize, displaySize);
         imageDisplay.addMouseListener(new MouseAdapter() {
-            @Override
             public void mouseClicked(MouseEvent e) {
-                fractalGenerator.recenterAndZoomRange(range, e.getX(), e.getY(), 0.5);
-                imageDisplay.repaint();
+                double x = FractalGenerator.getCoord(range.x,
+                                                     range.x + range.width,
+                                                     displaySize,
+                                                     e.getX());
+                double y = FractalGenerator.getCoord(range.y,
+                                                     range.y + range.height,
+                                                     displaySize,
+                                                     e.getY());
+                fractalGenerator.recenterAndZoomRange(range, x, y, 0.5);
+                drawFractal();
             }
         });
 
-        contentPane.setLayout(new BorderLayout());
-        contentPane.add(imageDisplay, BorderLayout.CENTER);
-        contentPane.add(clearButton, BorderLayout.SOUTH);
+        frame.setLayout(new BorderLayout());
+        frame.add(imageDisplay, BorderLayout.CENTER);
+        frame.add(clearButton, BorderLayout.SOUTH);
 
         frame.pack();
         frame.setVisible(true);
@@ -67,7 +70,7 @@ public class FractalExplorer {
                 if (numIterations == -1) {
                     imageDisplay.drawPixel(x, y, 0);
                 } else {
-                    float hue = 0.7f + (float)numIterations/200f;
+                    float hue = 0.723f + (float)numIterations/200f;
                     imageDisplay.drawPixel(x, y, Color.HSBtoRGB(hue, 1f, 1f));
                 }
             }

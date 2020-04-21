@@ -1,2 +1,3 @@
-# ktpLab4
-Laboratory work performed for the MTUCI in the frame of course "Cross-platform Programming Technologies" 
+# Курс "Кроссплатформенные технологии программирования". Лабораторная работа №4 "Рисование фракталов"
+Сборка: из корневой директории проекта вызвать "mvn compile"<br/>
+Запуск: из корневой директории проекта вызвать "mvn exec:java -Dexec.mainClass=FractalExplorer"
