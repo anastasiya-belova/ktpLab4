@@ -33,7 +33,15 @@ public class FractalExplorer {
         this.imageDisplay = new JImageDisplay(displaySize, displaySize);
         imageDisplay.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                fractalGenerator.recenterAndZoomRange(range, e.getX(), e.getY(), 0.5);
+                double x = FractalGenerator.getCoord(range.x,
+                                                     range.x + range.width,
+                                                     displaySize,
+                                                     e.getX());
+                double y = FractalGenerator.getCoord(range.y,
+                                                     range.y + range.height,
+                                                     displaySize,
+                                                     e.getY());
+                fractalGenerator.recenterAndZoomRange(range, x, y, 0.5);
                 drawFractal();
             }
         });
